@@ -12,11 +12,12 @@ public class PlanetManager : MonoBehaviour
     public GameObject defaultPlanet;
 
     //Distance between planets
-    private const float planetGap = 240f; 
+    private const float planetGap = 300f; 
 
     public InputField nameBox;
     public Slider sizeSlider;
     public InputField infoBox;
+
 
     private void Start()
     {
@@ -33,11 +34,11 @@ public class PlanetManager : MonoBehaviour
 
 
         //Get info component (name, size, speed.. Anything I have time to add)
-        Planet planetInfo = newPlanet.GetComponent<Planet>();
+        PlanetInfo planetInfo = newPlanet.GetComponent<PlanetInfo>();
 
 
         //Fixed distance between planets (const) + diameter of all planets + Radius of sun + radius of new planet
-        float startXPos = (planetCount * planetGap) + (Sun.transform.localScale.x / 3f);
+        float startXPos = (planetCount * planetGap) + (Sun.transform.localScale.x / 2f);
 
         //Set user variables from game window
         planetInfo.m_radius = Mathf.Round(sizeSlider.value);
@@ -47,7 +48,9 @@ public class PlanetManager : MonoBehaviour
 
         newPlanet.name = planetInfo.m_name; //Rename in hierarchy
         newPlanet.transform.localScale = new Vector3(planetInfo.m_radius * 2, planetInfo.m_radius * 2, planetInfo.m_radius * 2);
-        newPlanet.transform.Translate(new Vector3(startXPos, 0, 0));
+        newPlanet.transform.localPosition = (new Vector3(startXPos, 0, 0));
+
+
 
         //Add to list
         Planets.Add(newPlanet);
@@ -58,16 +61,24 @@ public class PlanetManager : MonoBehaviour
 
     public void DeletePlanet(GameObject planet)
     {
+        Planets.Remove(planet);
+        Destroy(planet);
 
-        for(int i = 1; i < Planets.Count; i++)
+
+        for (int i = 1; i < Planets.Count; i++)
         {
-            float newXPos = (i * planetGap) + (Sun.transform.localScale.x / 3f);
+            float newXPos = (i * planetGap) + (Sun.transform.localScale.x / 2f);
 
+            //Implement a proper reset planet function when orbits are implemented
             Planets[i].transform.localPosition = new Vector3(newXPos, 0, 0);
 
         }
 
-        Planets.Remove(planet);
-        Destroy(planet);
+
+    }
+
+    void Update()
+    {
+        Debug.Log(Planets.Count);
     }
 }

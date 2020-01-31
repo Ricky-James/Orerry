@@ -90,16 +90,30 @@ public class UIManager : MonoBehaviour
             mousePos = Input.mousePosition;
             ray = Camera.main.ScreenPointToRay(mousePos);
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0)) //Left click 
             {
+                //If click didn't hit a planet, de-select current selected planet
+                if (SelectedPlanet != null) 
+                    SelectedPlanet.GetComponent<Planet>().PlanetUnselected();
 
+                //If click hits a planet, select it, show details. Only if not Sun
+                //Sun gets no details
                 if (Physics.Raycast(ray, out hit))
                 {
 
-                    
-                    SelectedPlanet = hit.collider.gameObject;
-                    DisplayPlanetInfo(SelectedPlanet);
-                    deleteButton.SetActive(true);
+                    if(hit.collider.tag != "Sun")
+                    {
+                        SelectedPlanet = hit.collider.gameObject;
+                        DisplayPlanetInfo(SelectedPlanet);
+                        deleteButton.SetActive(true);
+                        SelectedPlanet.GetComponent<Planet>().PlanetSelected();
+                    }
+                    else
+                    {
+                        deleteButton.SetActive(false);
+                        infoBox.SetActive(false);
+                    }
+                 
                 }
                 else //De-select planet
                 {
@@ -127,7 +141,7 @@ public class UIManager : MonoBehaviour
 
     void DisplayPlanetInfo(GameObject planet)
     {
-        Planet planetInfo = planet.GetComponent<Planet>();
+        PlanetInfo planetInfo = planet.GetComponent<PlanetInfo>();
         nameText.text = planetInfo.m_name;
         //Multiply by 1000 so it sounds more realistic/scaled
         string size = (planetInfo.m_radius * 1000).ToString("N0");
@@ -138,7 +152,7 @@ public class UIManager : MonoBehaviour
 
     public void DeletePlanetClick()
     {
-        if (SelectedPlanet.GetComponent<Planet>().m_name != "The Sun")
+        if (SelectedPlanet.GetComponent<PlanetInfo>().m_name != "The Sun")
         {
             planetManager.DeletePlanet(SelectedPlanet);
             SelectedPlanet = null;

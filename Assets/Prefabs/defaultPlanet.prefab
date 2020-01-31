@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 439559873020819839}
   - component: {fileID: 439559873020819836}
   - component: {fileID: 8482037624213362123}
+  - component: {fileID: 6410768643728954503}
   m_Layer: 0
   m_Name: defaultPlanet
   m_TagString: Untagged
@@ -111,3 +112,15 @@ MonoBehaviour:
   planetNumber: -1
   unselectedSource: {fileID: 2100000, guid: f32c148498915cc4da3e677e3ed8cff8, type: 2}
   selectedSource: {fileID: 2100000, guid: 331881cdad0f4054fba11d49e582d4f9, type: 2}
+--- !u!114 &6410768643728954503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 439559873020819837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ceb707984fb4bb4aa866ed432501f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
